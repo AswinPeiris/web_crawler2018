@@ -36,9 +36,17 @@ public class webcrawler{
         int port = scan.nextInt();
         //open socket connection
         Socket sock = new Socket (address, port);
-        System.out.println("Webcrawler: created socket connected to local port: " + sock.getLocalPort());
+        System.out.println("Webcrawler: socket connected to server's local port: " + sock.getLocalPort());
         System.out.println("Remote address: " + sock.getInetAddress());
         System.out.println("Port: " + sock.getPort());
+
+        DataInputStream in = new DataInputStream(sock.getInputStream());
+        BufferedReader buffIn = new BufferedReader (new InputStreamReader(System.in));
+          String line;
+        while((line = buffIn.readLine()) != null){
+            System.out.println(line);
+        }
+        //PrintWriter printWriter = new PrintWriter(out, true);
         //read through pages
         //return results
         //close socket
