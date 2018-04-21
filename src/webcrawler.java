@@ -19,7 +19,7 @@ public class webcrawler{
     String largestPage  = "";
     String recentPage   = "";
     String PgDateTime   = "";
-    ArrayList VstDPgs = new ArrayList();
+    ArrayList VisitedPgs = new ArrayList();
     ArrayList InvldPgs = new ArrayList();
 
     public static void main (String[] args) throws IOException{
@@ -32,6 +32,7 @@ public class webcrawler{
         Scanner scan = new Scanner(System.in);
         System.out.println("Please enter the website address: ");
         String address = scan.next();
+        //URL u = new URL("cr.yp.to");
         System.out.println("Please enter the port: ");
         int port = scan.nextInt();
         //open socket connection
@@ -40,6 +41,9 @@ public class webcrawler{
         System.out.println("Remote address: " + sock.getInetAddress());
         System.out.println("Port: " + sock.getPort());
 
+        //get html page
+        DataOutputStream out = new DataOutputStream(sock.getOutputStream());
+        //out.writeUTF();
         DataInputStream in = new DataInputStream(sock.getInputStream());
         BufferedReader buffIn = new BufferedReader (new InputStreamReader(System.in));
           String line;
