@@ -43,9 +43,12 @@ public class webcrawler{
 
         //get html page
         DataOutputStream out = new DataOutputStream(sock.getOutputStream());
-        //out.writeUTF();
+        out.writeUTF("GET / "+"Host: "+address+" /HTTP/1.0 HTTP/1.1 \r\n");
+        out.writeUTF("Accept: text/plain, text/html, text/*\r\n");
+        out.writeUTF("\r\n");
+        //prints out the server's response
         DataInputStream in = new DataInputStream(sock.getInputStream());
-        BufferedReader buffIn = new BufferedReader (new InputStreamReader(System.in));
+        BufferedReader buffIn = new BufferedReader (new InputStreamReader(in));
           String line;
         while((line = buffIn.readLine()) != null){
             System.out.println(line);
@@ -55,6 +58,8 @@ public class webcrawler{
         //return results
         //close socket
         scan.close();
+        out.close();
+        in.close();
         sock.close();
       }
       catch (IOException e){
