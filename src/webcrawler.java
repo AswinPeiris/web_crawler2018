@@ -15,12 +15,14 @@ import java.net.*;
 import java.util.*;
 
 public class webcrawler{
-    String largestPage  = "";
-    String recentPage   = "";
-    String PgDateTime   = "";
-    static ArrayList pages = new ArrayList();
-    static ArrayList VisitedPgs = new ArrayList();
-    static ArrayList InvldPgs = new ArrayList();
+    static String largestPage  = "";
+    static String largestPageLength = "";
+    static String recentPage   = "";
+    static String PgDateTime   = "";
+    static ArrayList<String> pages = new ArrayList<String>();
+    static ArrayList<String> VisitedPgs = new ArrayList<String>();
+    static ArrayList<String> InvldPgs = new ArrayList<String>();
+    static ArrayList<String> reDirPgs = new ArrayList<String>();
 
     public static void main (String[] args) throws IOException{
       crawler();
@@ -43,10 +45,11 @@ public class webcrawler{
         int port = scan.nextInt();
         //open socket connection and states details about the connection
         Socket sock = new Socket (url.getHost(), port);
+        System.out.println();
         System.out.println("Webcrawler: socket connected to server's local port: " + sock.getLocalPort());
         System.out.println("Remote address: " + sock.getInetAddress());
         System.out.println("Port: " + sock.getPort());
-        System.out.println("URL: "+ url.toString());
+        System.out.println();
         //System.out.println("Path: "+ path);
         //get request for html page from server
         OutputStream out = sock.getOutputStream();
@@ -63,17 +66,21 @@ public class webcrawler{
             if(line.contains("HTTP/1.1 404 Not Found")){
                 InvldPgs.add(address);
                 VisitedPgs.add(address);
+            }else if(line.contains("HTTP/1.1 300")){
+                reDirPgs.add(address);
+                VisitedPgs.add(address);
             }else{
-                System.out.println(line);
                 if (line.contains("Content-Length: ")) {
                     String contentLength = line.substring(16);
-                    //System.out.println("Content Length : "+ contentLength);
+                    largestPage = address;
+                    largestPageLength = contentLength;
+                    System.out.println("Content Length : "+ contentLength);
                 }
                 if (line.contains("Last-Modified: ")) {
                     String lastMod = line.substring(15);
-                    //System.out.println("Last-Modified: "+lastMod);
+                    recentPage = lastMod;
+                    System.out.println("Last-Modified: "+lastMod);
                 }
-                /*
                 if(line.contains("<a href=")){
                     String link = line.substring(line.lastIndexOf("href=")+6,line.lastIndexOf('"'));
                         System.out.println(link);
@@ -82,20 +89,24 @@ public class webcrawler{
                     }else{
                         pages.add(link);
                     }
-                }*/
+                }
            }
         }
         System.out.println();
-        //System.out.println(pages);
-        //System.out.println(VisitedPgs);
-        //read through pages
-        //return results
-        //close socket
         printwriter.close();
         out.close();
         in.close();
         scan.close();
         sock.close();
+        int i = 0;
+        while(i < pages.size()){
+            pageReader(pages.get(i), port);
+        }
+        //System.out.println(pages);
+        //System.out.println(VisitedPgs);
+        //read through pages
+        //return results
+        //close socket
       }catch (MalformedURLException e){
           System.out.println("ERROR: Something is wrong with your URL");
       }
@@ -104,7 +115,7 @@ public class webcrawler{
       }
     }
 
-    public static String pageReader(String address, String port){
+    public static String pageReader(String address, int port){
         return null;
     }
 
