@@ -60,19 +60,34 @@ public class webcrawler{
         BufferedReader buff = new BufferedReader(InSR);
           String line;
         while((line = buff.readLine()) != null){
-            if(line.contains("<a href=")){
-                String link = line.substring(line.lastIndexOf("href=")+6,line.lastIndexOf('"'));
-                System.out.println(link);
-                if(urlVerification(link)){
-                    continue;
-                }else{
-                    pages.add(link);
+            if(line.contains("HTTP/1.1 404 Not Found")){
+                InvldPgs.add(address);
+                VisitedPgs.add(address);
+            }else{
+                System.out.println(line);
+                if (line.contains("Content-Length: ")) {
+                    String contentLength = line.substring(16);
+                    //System.out.println("Content Length : "+ contentLength);
                 }
-            }
+                if (line.contains("Last-Modified: ")) {
+                    String lastMod = line.substring(15);
+                    //System.out.println("Last-Modified: "+lastMod);
+                }
+                /*
+                if(line.contains("<a href=")){
+                    String link = line.substring(line.lastIndexOf("href=")+6,line.lastIndexOf('"'));
+                        System.out.println(link);
+                    if(urlVerification(link)){
+                        continue;
+                    }else{
+                        pages.add(link);
+                    }
+                }*/
+           }
         }
         System.out.println();
-        System.out.println(pages);
-        System.out.println(VisitedPgs);
+        //System.out.println(pages);
+        //System.out.println(VisitedPgs);
         //read through pages
         //return results
         //close socket
