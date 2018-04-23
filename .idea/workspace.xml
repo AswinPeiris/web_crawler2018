@@ -25,17 +25,15 @@
       <file leaf-file-name="webcrawler.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/webcrawler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="107">
-              <caret line="98" column="78" lean-forward="true" selection-start-line="98" selection-start-column="78" selection-end-line="98" selection-end-column="78" />
+            <state relative-caret-position="238">
+              <caret line="45" column="9" lean-forward="false" selection-start-line="45" selection-start-column="9" selection-end-line="45" selection-end-column="9" />
               <folding>
-                <element signature="e#0#4789#0" expanded="true" />
+                <element signature="e#0#8351#0" expanded="true" />
                 <element signature="imports" expanded="true" />
-                <element signature="e#651#659#0" expanded="true" />
-                <element signature="e#718#726#0" expanded="true" />
-                <element signature="e#783#791#0" expanded="true" />
-                <element signature="e#848#856#0" expanded="true" />
-                <element signature="e#4533#4534#0" expanded="true" />
-                <element signature="e#4560#4561#0" expanded="true" />
+                <element signature="e#711#719#0" expanded="true" />
+                <element signature="e#778#786#0" expanded="true" />
+                <element signature="e#843#851#0" expanded="true" />
+                <element signature="e#908#916#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -548,12 +546,12 @@
       <updated>1523862415708</updated>
       <workItem from="1523862418282" duration="10966000" />
       <workItem from="1524211722866" duration="4812000" />
-      <workItem from="1524303416396" duration="30029000" />
+      <workItem from="1524303416396" duration="34630000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="45807000" />
+    <option name="totallyTimeSpent" value="50408000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
@@ -615,14 +613,12 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#4789#0" expanded="true" />
+            <element signature="e#0#8351#0" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#651#659#0" expanded="true" />
-            <element signature="e#718#726#0" expanded="true" />
-            <element signature="e#783#791#0" expanded="true" />
-            <element signature="e#848#856#0" expanded="true" />
-            <element signature="e#4533#4534#0" expanded="true" />
-            <element signature="e#4560#4561#0" expanded="true" />
+            <element signature="e#711#719#0" expanded="true" />
+            <element signature="e#778#786#0" expanded="true" />
+            <element signature="e#843#851#0" expanded="true" />
+            <element signature="e#908#916#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -650,17 +646,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/webcrawler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="107">
-          <caret line="98" column="78" lean-forward="true" selection-start-line="98" selection-start-column="78" selection-end-line="98" selection-end-column="78" />
+        <state relative-caret-position="238">
+          <caret line="45" column="9" lean-forward="false" selection-start-line="45" selection-start-column="9" selection-end-line="45" selection-end-column="9" />
           <folding>
-            <element signature="e#0#4789#0" expanded="true" />
+            <element signature="e#0#8351#0" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#651#659#0" expanded="true" />
-            <element signature="e#718#726#0" expanded="true" />
-            <element signature="e#783#791#0" expanded="true" />
-            <element signature="e#848#856#0" expanded="true" />
-            <element signature="e#4533#4534#0" expanded="true" />
-            <element signature="e#4560#4561#0" expanded="true" />
+            <element signature="e#711#719#0" expanded="true" />
+            <element signature="e#778#786#0" expanded="true" />
+            <element signature="e#843#851#0" expanded="true" />
+            <element signature="e#908#916#0" expanded="true" />
           </folding>
         </state>
       </provider>
