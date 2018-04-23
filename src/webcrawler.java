@@ -9,14 +9,15 @@
 -A list of invalid pages (not) found (404)
 -A list of redirected pages found (30x) and where they redirect to
 */
-import javax.xml.crypto.Data;
 import java.io.*;
 import java.net.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class webcrawler{
+    @SuppressWarnings("Duplicates")
     static String largestPage  = "";
     static int largestPageLength = 0;
     static String recentPage   = "";
@@ -25,12 +26,11 @@ public class webcrawler{
     static ArrayList<String> VisitedPgs = new ArrayList<String>();
     static ArrayList<String> InvldPgs = new ArrayList<String>();
     static ArrayList<String> reDirPgs = new ArrayList<String>();
-
-    public static void main (String[] args) throws IOException{
+    public static void main (String[] args) throws Exception{
       crawler();
     }
 
-    public static void crawler(){
+    private static void crawler() throws Exception{
       try{
         //get user input for the URL and Port
         Scanner scan = new Scanner(System.in);
@@ -65,12 +65,23 @@ public class webcrawler{
         BufferedReader buff = new BufferedReader(InSR);
           String line;
         while((line = buff.readLine()) != null){
+            System.out.println(line);
             if(line.contains("HTTP/1.1 4")){
                 InvldPgs.add(address);
                 VisitedPgs.add(address);
+                break;
             }else if(line.contains("HTTP/1.1 3")){
-                reDirPgs.add(address);
                 VisitedPgs.add(address);
+                while((line = buff.readLine()) != null){
+                    if(line.contains("<a href=")){
+                        String redirect = line.substring(line.lastIndexOf("href=")+6,line.lastIndexOf('"'));
+                        reDirPgs.add(address+" and the destination: "+redirect);
+                        pages.add(redirect);
+                        break;
+                    }
+                   break;
+                }
+                break;
             }else{
                 if (line.contains("Content-Length: ")) {
                     String contentLength = line.substring(16);
@@ -82,11 +93,9 @@ public class webcrawler{
                     String lastMod = line.substring(15);
                     PgDateTime = lastMod;
                     recentPage = address;
-                    System.out.println("Last-Modified: "+lastMod);
                 }
                 if(line.contains("<a href=")){
                     String link = line.substring(line.lastIndexOf("href=")+6,line.lastIndexOf('"'));
-                    System.out.println(link);
                     if(urlVerification(link)){
                         continue;
                     }else{
@@ -95,32 +104,31 @@ public class webcrawler{
                 }
             }
         }
-          System.out.println();
-          printwriter.close();
-          out.close();
-          in.close();
-          scan.close();
-          sock.close();
-          int i = 0;
-          while(i < pages.size()){
-              //pageReader(pages.get(i), port);
-              i++;
-          }
-          //System.out.println(pages);
-          //System.out.println(VisitedPgs);
-          //read through pages
-          //return results
-          //close socket
-        /*
-        * System.out.println("------------------------------------------------------";
-        * System.out.println("------------------------REPORT------------------------";
-        * System.out.println("Total number of URLs visited: "+VisitedPgs.size());
-        * System.out.println("Total number of Invalid URLs: "+InvldPgs.size());
-        * System.out.println("The largest page: "+largestPage+" and size: "+largestPageLength);
-        * System.out.println("The most recently modifed page date/time: "+ recentPage);
-        * System.out.println("List of redirected pages: "+reDirPgs);
-        * System.out.println("------------------------------------------------------";
-        * */
+        System.out.println();
+        printwriter.close();
+        out.close();
+        in.close();
+        scan.close();
+        sock.close();
+        pageReader(pages.get(1), port);
+        //System.out.println(pages);
+        //System.out.println(VisitedPgs);
+        //read through pages
+        //return results
+        //close socket
+
+        System.out.println("------------------------------------------------------");
+        System.out.println("------------------------REPORT------------------------");
+        System.out.println("Total number of URLs visited: "+VisitedPgs.size()+" and: "+VisitedPgs);
+        System.out.println("Total number of Invalid URLs: "+InvldPgs.size());
+        System.out.println("The largest page: "+largestPage+" and size: "+largestPageLength);
+        System.out.println("The most recently modifed page date/time: "+ recentPage);
+        System.out.println("List of redirected pages: ");
+        for(int i = 0; i < reDirPgs.size();i++) {
+            System.out.println(reDirPgs.get(i));
+        }
+        System.out.println("------------------------------------------------------");
+
       }catch (MalformedURLException e){
           System.out.println("ERROR MalformedURL: Something is wrong with your URL");
       }
@@ -129,33 +137,43 @@ public class webcrawler{
       }
     }
 
-    public static void pageReader(String address, int port) throws Exception{
+    private static void pageReader(String address, int port) throws Exception{
         try{
-          URL url = new URL (address);
-          String path = url.getPath();
-          if(path.isEmpty()){
+            TimeUnit.SECONDS.sleep(4);
+            VisitedPgs.add(address);
+            URL url = new URL (address);
+            String path = url.getPath();
+            if(path.isEmpty()){
               path = "/index.html";
           }
-          //initiate socket connection
-          Socket sock = new Socket(url.getHost(),port);
-          //begins procedure to send get request to server
-          OutputStream out = sock.getOutputStream();
-          PrintWriter printwriter = new PrintWriter(out, false);
-          printwriter.print("GET "+path+" HTTP/1.0\r\n");
-          printwriter.print("\r\n");
-          printwriter.flush();
-          //starts parsing received data from server
-          InputStream in = sock.getInputStream();
-          InputStreamReader InSR = new InputStreamReader(in);
-          BufferedReader buff = new BufferedReader(InSR);
-          String line;
-          while((line = buff.readLine()) != null){
+            //initiate socket connection
+            Socket sock = new Socket(url.getHost(),port);
+            //begins procedure to send get request to server
+            OutputStream out = sock.getOutputStream();
+            PrintWriter printwriter = new PrintWriter(out, false);
+            printwriter.print("GET "+path+" HTTP/1.0\r\n");
+            printwriter.print("\r\n");
+            printwriter.flush();
+            //starts parsing received data from server
+            InputStream in = sock.getInputStream();
+            InputStreamReader InSR = new InputStreamReader(in);
+            BufferedReader buff = new BufferedReader(InSR);
+            String line;
+            while((line = buff.readLine()) != null){
               if(line.contains("HTTP/1.1 4")){
                   InvldPgs.add(address);
-                  VisitedPgs.add(address);
+                  pages.remove(address);
+                  break;
               }else if(line.contains("HTTP/1.1 3")){
-                  reDirPgs.add(address);
-                  VisitedPgs.add(address);
+                 VisitedPgs.add(address);
+                 while((line = buff.readLine())!= null){
+                   if(line.contains("<a href=")){
+                     String redirect = line.substring(line.lastIndexOf("href=")+6, line.lastIndexOf('"'));
+                     reDirPgs.add(address+" and the destination:"+redirect);
+                     break;
+                   }
+                 }
+                 break;
               }else {
                   if (line.contains("Content-Length: ")) {
                       String contentLength = line.substring(16);
@@ -163,29 +181,41 @@ public class webcrawler{
                       if (cl >= largestPageLength) {
                           largestPage = address;
                           largestPageLength = cl;
-                      } else {
-                          System.out.println("Smaller Content Length : " + contentLength);
                       }
                   }
                   if (line.contains("Last-Modified: ")) {
                       String lastMod = line.substring(15);
                       //newest date
-                      DateFormat lm = new SimpleDateFormat("EEE MMM dd kk:mm:ss zzz yyyy", Locale.ENGLISH);
+                      DateFormat lm = new SimpleDateFormat("E, dd MMM YYYY HH:mm:ss z", Locale.ENGLISH);
                       Date lmDate = lm.parse(lastMod);
                       //old date
-                      DateFormat oldlm = new SimpleDateFormat("EEE MMM dd kk:mm:ss zzz yyyy", Locale.ENGLISH);
-                      Date oldLmDate = oldlm.parse(PgDateTime);
-                      if(lmDate.compareTo(oldLmDate) >= 0){
-                       recentPage = address;
-                       PgDateTime = lastMod;
+                      DateFormat oldLm = new SimpleDateFormat("E, dd MMM YYYY HH:mm:ss z", Locale.ENGLISH);
+                      Date oldLmDate = oldLm.parse(PgDateTime);
+                      if(oldLmDate.compareTo(lmDate) <= 0){
+                          recentPage = address;
+                          PgDateTime = lastMod;
                       }
+                  }
+                  if(line.contains("<a href=")) {
+                      String gatheredLink = line.substring(line.lastIndexOf("href=")+6,line.lastIndexOf('"'));
+                      if(urlVerification(gatheredLink) == true){
+                        continue;
+                    }else{
+                        pages.add(gatheredLink);
+                    }
                   }
               }
           }
+          pages.remove(address);
           printwriter.close();
           out.close();
           in.close();
-          sock.close();       
+          sock.close();
+          int j = 0;
+          while (j < pages.size()){
+              pageReader(pages.get(j), port);
+              j++;
+          }
         }catch (MalformedURLException e){
           System.out.println("ERROR: Something is wrong with your URL");
         }catch (IOException e){
@@ -194,7 +224,7 @@ public class webcrawler{
     }
 
     public static Boolean urlVerification(String link){
-      //checks if we have visited the webpage previously
+      //checks if we have visited the url previously
       if(VisitedPgs.contains(link)){
           return true;
       }else{
