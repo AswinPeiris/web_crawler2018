@@ -35,7 +35,8 @@ public class webcrawler{
         //get user input for the URL and Port
         Scanner scan = new Scanner(System.in);
         System.out.println("Please enter the website address (don't include the 'http://' in front): ");
-        String htt = "http://";
+	//minor adjustments to url        
+	String htt = "http://";
         String address = scan.next();
         address = htt+address;
         URL url = new URL(address);
@@ -52,7 +53,6 @@ public class webcrawler{
         System.out.println("Remote address: " + sock.getInetAddress());
         System.out.println("Port: " + sock.getPort());
         System.out.println();
-        //System.out.println("Path: "+ path);
         //get request for html page from server
         System.out.println("...");
         OutputStream out = sock.getOutputStream();
@@ -119,19 +119,23 @@ public class webcrawler{
         //return results
         System.out.println("------------------------------------------------------");
         System.out.println("------------------------REPORT------------------------");
-        System.out.println("Total number of URLs visited: "+VisitedPgs.size()+" and :");
+        System.out.println("Total number of URLs visited: "+VisitedPgs.size()+" and the links :");
         for(int i = 0; i < VisitedPgs.size(); i++){
           System.out.println(VisitedPgs.get(i));
         }
+	System.out.println();
         System.out.println("Total number of Invalid URLs: "+InvldPgs.size());
+	System.out.println();
         System.out.println("The largest page: "+largestPage+" and size: "+largestPageLength);
+	System.out.println();
         System.out.println("The most recently modifed page: "+ recentPage+" and its date/time: "+PgDateTime);
+	System.out.println();
         System.out.println("List of redirected pages: ");
         for(int i = 0; i < reDirPgs.size();i++) {
             System.out.println(reDirPgs.get(i));
         }
         System.out.println("------------------------------------------------------");
-
+	System.out.println("------------------------------------------------------");
       }catch (MalformedURLException e){
           System.out.println("ERROR MalformedURL: Something is wrong with your URL");
       }
@@ -142,7 +146,7 @@ public class webcrawler{
 
     private static void pageReader(String address, int port) throws Exception{
         try{
-            System.out.println("adding slight delay!");
+            System.out.println("found URL!");
             TimeUnit.SECONDS.sleep(2);
             URL url = new URL (address);
             String path = url.getPath();
