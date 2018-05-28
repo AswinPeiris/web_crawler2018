@@ -1,14 +1,6 @@
-//Username: u6177012    Name:Aswin Peiris
-//Assignment: 2         Course: COMP3310
+//Name:Aswin Peiris
 //Created 4/04/2018
 
-/*needs to record:
--number of pages
--the largest page (and size)
--the most-recently modified page (and its date/time)
--A list of invalid pages (not) found (404)
--A list of redirected pages found (30x) and where they redirect to
-*/
 import java.io.*;
 import java.net.*;
 import java.text.DateFormat;
